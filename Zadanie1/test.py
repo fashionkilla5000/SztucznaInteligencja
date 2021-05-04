@@ -29,35 +29,35 @@ def main():
         j=-1
         for i in array[0]:
             j= j+1
-        #     if type(i) == str:
-        #         print('\nWykryto znak: ' + i + ' w kolumnie: ', j)
-        #         print('\nwczytuje kolumne:')
-        #         print(df[j])
-        #         print("""\n\nZdecyduj co chcesz zrobić z kolumną z tym znakiem:
-        #                         1.Usun
-        #                         2.Zamień na liczby
-        #                         3.Nic""")
-        #         response = int(input())
-        #         if response == 1:
-        #             del df[j]
-        #             print('\nDane po zmianach: ')
-        #             print(df)
-        #         elif response == 2:
-        #             arr = df[j].to_numpy()
-        #             list = collections.Counter(arr)
-        #             viter = iter(list)
-        #             x = len(list.values())
-        #             for k in viter:
-        #                 df[j] = df[j].replace([k], x)
-        #                 x= x-1
-        #             print('\nDane po zmianach: ')
-        #             print(df)
-        #         elif response == 3:
-        #             print('\nDane po zmianach: ')
-        #             print(df)
-        #             continue
-        #
-        # input("\n\nPress Enter to continue...")
+            if type(i) == str:
+                print('\nWykryto znak: ' + i + ' w kolumnie: ', j)
+                print('\nwczytuje kolumne:')
+                print(df[j])
+                print("""\n\nZdecyduj co chcesz zrobić z kolumną z tym znakiem:
+                                1.Usun
+                                2.Zamień na liczby
+                                3.Nic""")
+                response = int(input())
+                if response == 1:
+                    del df[j]
+                    print('\nDane po zmianach: ')
+                    print(df)
+                elif response == 2:
+                    arr = df[j].to_numpy()
+                    list = collections.Counter(arr)
+                    viter = iter(list)
+                    x = len(list.values())
+                    for k in viter:
+                        df[j] = df[j].replace([k], x)
+                        x= x-1
+                    print('\nDane po zmianach: ')
+                    print(df)
+                elif response == 3:
+                    print('\nDane po zmianach: ')
+                    print(df)
+                    continue
+
+        input("\n\nPress Enter to continue...")
 
         print("""\n\nCzy chcesz znormalizować wybrane kolumny?:
                                         1.Tak
