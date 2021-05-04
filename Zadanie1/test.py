@@ -3,7 +3,7 @@ import numpy as np
 import collections
 
 def main():
-    df = pd.read_csv('crx.data', header=None)
+    df = pd.read_csv('crx.data', header=None, na_values = '?')
 
 
     nf = df.to_numpy()
@@ -19,10 +19,15 @@ def main():
 
     toFloat(nf)
 
+    def normalize(array,nmin,nmax):
+        new = []
+        for x in array:
+            new.append((x - min(array) / max(array) - min(array))*((nmax-nmin)+nmin))
+        return new
 
-    def config(a):
+    def config(array):
         j=-1
-        for i in a[0]:
+        for i in array[0]:
             j= j+1
             if type(i) == str:
                 print('\nWykryto znak: ' + i + ' w kolumnie: ', j)
@@ -51,14 +56,32 @@ def main():
                     print('\nDane po zmianach: ')
                     print(df)
                     continue
-                else:
-                    print('\n\nCzy na pewno chciałeś to kliknąć ?\n\n')
-                    input("\n\nPress Enter to continue...")
-                    main()
+
+        input("\n\nPress Enter to continue...")
+
+        print("""\n\nCzy chcesz znormalizować wybrane kolumny?:
+                                        1.Tak
+                                        2.Nie""")
+        response = int(input())
+        if response == 1:
+            n = int(input('podaj liczbe kolumn do normalizacji: '))
+            print("\nPodaj przedział do normalizacji: ")
+            nmin = int(input())
+            nmax = int(input())
+            print("\nPodaj kolejno kolumny do normalizacji: ")
+            for i in range(0, n):
+                x = int(input())
+                df[x] = normalize(df[x],nmin,nmax)
+
+            print('\nDane po zmianach: ')
+            print(df)
+
+        elif response == 2:
+            pass
 
 
     print(df)
+    input("\n\nPress Enter to continue...")
     config(nf)
-    print(df)
 
 main()
