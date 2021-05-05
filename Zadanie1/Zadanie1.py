@@ -56,7 +56,7 @@ def main():
 
     def struktura():
 
-        f = open("data.txt", "r+")
+        f = open("data.txt", "w")
         f.seek(0)
         f.truncate()
         f.close()
