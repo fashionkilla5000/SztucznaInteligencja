@@ -8,7 +8,7 @@ import subprocess
 def main():
 
     def toFloat(name):
-        for i in range(len(name)):
+        for i in range(len(name)-1):
             for j in range(len(name[i])):
                 try:
                     float(name[i][j])
@@ -21,7 +21,7 @@ def main():
         print("\nZnalazłem litery w pierwszym wierszu")
         for i in array[0]:
             j= j+1
-            if type(i) == str:
+            if type(i) == str and j<len(array[0])-1:
                 print('\nWykryto znak: ' + i + ' w kolumnie: ', j)
                 print('\nwczytuje kolumne:')
                 print(df[j])
@@ -155,7 +155,7 @@ def main():
             nmin = int(input("Przedział dolny: "))
             nmax = int(input("Przedział górny: "))
             try:
-                for x in range(len(df.columns)):
+                for x in range(len(df.columns)-1):
                     df[x] = normalize(df[x], nmin, nmax)
                 print("\nDane po zmianach:")
                 print(df)
