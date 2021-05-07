@@ -18,7 +18,7 @@ def main():
     def normalize(array, nmin, nmax):
         new = []
         for x in array:
-            new.append(((x - min(array)) / (max(array) - min(array))) * ((nmax - nmin) + nmin))
+            new.append(((x - min(array)) / (max(array) - min(array))*(nmax-nmin))+nmin)
         return new
 
 
@@ -73,29 +73,44 @@ def main():
     def metryka_logarytm(row1, row2):
         odleglosc = 0.0
         for i in range(len(row1) - 1):
-            odleglosc += m.log10(row1[i]) - m.log10(row2[i])
+            print(m.fabs(m.log10(row1[i])))
+            print(m.fabs(m.log10(row1[i]) - m.log10(row2[i])))
+            if np.isnan(row1[i]) or np.isnan(row2[i]):
+                continue
+            else:
+                odleglosc += m.fabs(m.log10(row1[i]) - m.log10(row2[i]))
         return odleglosc
 
 
     def metryka_czebyszew(row1, row2):
         odleglosc = 0.0
         for i in range(len(row1) - 1):
-            odleglosc += (m.log10(row1[i]) - m.log10(row2[i]))
+            if np.isnan(row1[i]) or np.isnan(row2[i]):
+                continue
+            else:
+                odleglosc += (m.log10(row1[i]) - m.log10(row2[i]))
         return max(odleglosc)
 
 
     def metryka_minakowski(row1, row2, p):
         odleglosc = 0.0
         for i in range(len(row1) - 1):
-            odleglosc += (row1[i] - row2[i]) ** p
+            if np.isnan(row1[i]) or np.isnan(row2[i]):
+                continue
+            else:
+                odleglosc += (row1[i] - row2[i]) ** p
         return odleglosc ** (1 / p)
 
 
     def metryka_euklides(row1, row2):
         odleglosc = 0.0
         for i in range(len(row1) - 1):
-            odleglosc += (row1[i] - row2[i]) ** 2
-        return odleglosc
+            if np.isnan(row1[i]) or np.isnan(row2[i]):
+                continue
+            else:
+                odleglosc += ((row1[i] - row2[i]) ** 2)
+            odleglosc += ((row1[i] - row2[i]) ** 2)
+        return m.sqrt(odleglosc)
 
     def najblizsze_probki(data, probka, k, decyzja,p):
         list = []
@@ -168,7 +183,7 @@ def main():
 
 
     def losuj_atrybuty():
-        randomlist = random.sample(range(0, 50), len(df.columns) - 2)
+        randomlist = random.sample(range(0, 50), len(df.columns) - 1)
         randomlist = normalize(randomlist, nmin, nmax)
         print('Wylosowane atrybuty po normalizacji :\n', randomlist)
         return randomlist
@@ -197,18 +212,20 @@ def main():
                 odl = metryka_logarytm(probka, row)
             list.append((row,odl))
         list.sort(key=lambda tup: tup[1])
+        print(pd.DataFrame(list))
         najblizsze = []
         for i in range(k):
             najblizsze.append(list[i][:])
         return najblizsze
 
-    def podziel(arr, k,atrybuty,decyzja,p):
+    def podziel(arr, k,atrybuty,metryka,p):
         n = len(arr.columns) - 1
         num = arr.to_numpy()
         myset = set(num[:, n])
         viter = iter(myset)
         uniq = []
         for x in viter:
+            print('vitter',x)
             uniq.append(x)
 
         minusy = arr.loc[arr[n] == uniq[0]]
@@ -217,8 +234,8 @@ def main():
         minusy = minusy.to_numpy()
         plusy = plusy.to_numpy()
 
-        minusy = najblizsze_probki2(minusy, atrybuty, k,decyzja,p)
-        plusy = najblizsze_probki2(plusy, atrybuty, k,decyzja,p)
+        minusy = najblizsze_probki2(minusy, atrybuty, k,metryka,p)
+        plusy = najblizsze_probki2(plusy, atrybuty, k,metryka,p)
 
         print("Najblizsze probki : \n\n")
         print(uniq[0])
@@ -313,3 +330,4 @@ def main():
         main()
 
 main()
+

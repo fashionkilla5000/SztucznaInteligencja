@@ -126,7 +126,7 @@ def main():
     def normalize(array,nmin,nmax):
         new = []
         for x in array:
-            new.append(((x - min(array)) / (max(array) - min(array)))*((nmax-nmin)+nmin))
+            new.append(((x - min(array)) / (max(array) - min(array))*(nmax-nmin))+nmin)
         return new
 
     def menu_normalizuj():
