@@ -4,7 +4,10 @@ import math as m
 import collections
 import random
 
+
+
 def main():
+
     def normalize_all():
         print("\nPodaj przedział do normalizacji: ")
         global nmin
@@ -33,6 +36,7 @@ def main():
 
 
     def config(array):
+
         j = -1
         for i in array[0]:
             j = j + 1
@@ -99,6 +103,14 @@ def main():
                 odleglosc += m.fabs(row1[i] - row2[i]) ** p
         return odleglosc ** (1 / p)
 
+    def metryka_manhattan(row1,row2):
+        odleglosc = 0.0
+        for i in range(len(row1) - 1):
+            if np.isnan(row1[i]) or np.isnan(row2[i]):
+                continue
+            else:
+                odleglosc += m.fabs(row1[i] - row2[i])
+        return odleglosc
 
     def metryka_euklides(row1, row2):
         odleglosc = 0.0
@@ -107,7 +119,6 @@ def main():
                 continue
             else:
                 odleglosc += ((row1[i] - row2[i]) ** 2)
-            odleglosc += ((row1[i] - row2[i]) ** 2)
         return m.sqrt(odleglosc)
 
     def najblizsze_probki(data, probka, k, decyzja,p):
@@ -121,6 +132,8 @@ def main():
                 odl = metryka_czebyszew(probka, row)
             if decyzja == 4:
                 odl = metryka_logarytm(probka, row)
+            if decyzja == 5:
+                odl = metryka_manhattan(probka, row)
             list.append((row,odl))
         list.sort(key=lambda tup: tup[1])
         najblizsze = []
@@ -209,6 +222,8 @@ def main():
                 odl = metryka_czebyszew(probka, row)
             if decyzja == 4:
                 odl = metryka_logarytm(probka, row)
+            if decyzja == 5:
+                odl = metryka_manhattan(probka, row)
             list.append((row,odl))
         list.sort(key=lambda tup: tup[1])
         print(pd.DataFrame(list))
@@ -280,7 +295,8 @@ def main():
                                 1.Euklidesa
                                 2.Minkowskiego
                                 3.Czebyszewa"
-                                4.z logarytmem\n"""))
+                                4.z logarytmem
+                                5.Manhattan\n"""))
             k = int(input("\n\nPodaj parametr k: "))
             if decyzja == 2:
                 p = int(input("Podaj parametr p: "))
@@ -304,7 +320,8 @@ def main():
                                 1.Euklidesa
                                 2.Minkowskiego
                                 3.Czebyszewa"
-                                4.z logarytmem\n"""))
+                                4.z logarytmem
+                                5.Manhattan\n"""))
             k = int(input("\n\nPodaj parametr k: "))
             if decyzja == 2:
                 p = int(input("Podaj parametr p: "))
@@ -318,7 +335,8 @@ def main():
                             1.Euklidesa
                             2.Minkowskiego
                             3.Czebyszewa"
-                            4.z logarytmem\n"""))
+                            4.z logarytmem
+                            5.Manhattan\n"""))
         k = int(input("\n\nPodaj parametr k: "))
         if decyzja == 2:
             p = int(input("Podaj parametr p: "))
