@@ -73,8 +73,6 @@ def main():
     def metryka_logarytm(row1, row2):
         odleglosc = 0.0
         for i in range(len(row1) - 1):
-            print(m.fabs(m.log10(row1[i])))
-            print(m.fabs(m.log10(row1[i]) - m.log10(row2[i])))
             if np.isnan(row1[i]) or np.isnan(row2[i]):
                 continue
             else:
@@ -92,13 +90,13 @@ def main():
         return max(odleglosc)
 
 
-    def metryka_minakowski(row1, row2, p):
+    def metryka_minkowski(row1, row2, p):
         odleglosc = 0.0
         for i in range(len(row1) - 1):
             if np.isnan(row1[i]) or np.isnan(row2[i]):
                 continue
             else:
-                odleglosc += (row1[i] - row2[i]) ** p
+                odleglosc += m.fabs(row1[i] - row2[i]) ** p
         return odleglosc ** (1 / p)
 
 
@@ -118,7 +116,7 @@ def main():
             if decyzja == 1:
                 odl = metryka_euklides(probka, row)
             if decyzja == 2:
-                odl = metryka_minakowski(probka, row, p)
+                odl = metryka_minkowski(probka, row, p)
             if decyzja == 3:
                 odl = metryka_czebyszew(probka, row)
             if decyzja == 4:
@@ -180,6 +178,7 @@ def main():
         print("\n\nPoprawne: ",poprawnie)
         print("Błędnie: ",zle)
         print("Nie da się sklasyfikować: ",error)
+        print('Współczynnik poprawności: ',int((poprawnie/(zle+error+poprawnie))*100), '%')
 
 
     def losuj_atrybuty():
@@ -205,7 +204,7 @@ def main():
             if decyzja == 1:
                 odl = metryka_euklides(probka, row)
             if decyzja == 2:
-                odl = metryka_minakowski(probka, row, p)
+                odl = metryka_minkowski(probka, row, p)
             if decyzja == 3:
                 odl = metryka_czebyszew(probka, row)
             if decyzja == 4:
@@ -279,7 +278,7 @@ def main():
                 atrybuty = losuj_atrybuty()
             decyzja = int(input("""\nWybierz metrykę:
                                 1.Euklidesa
-                                2.Minakowskiego
+                                2.Minkowskiego
                                 3.Czebyszewa"
                                 4.z logarytmem\n"""))
             k = int(input("\n\nPodaj parametr k: "))
@@ -303,7 +302,7 @@ def main():
                 atrybuty = losuj_atrybuty()
             decyzja = int(input("""\nWybierz metrykę:
                                 1.Euklidesa
-                                2.Minakowskiego
+                                2.Minkowskiego
                                 3.Czebyszewa"
                                 4.z logarytmem\n"""))
             k = int(input("\n\nPodaj parametr k: "))
@@ -317,7 +316,7 @@ def main():
     if response == 2:
         decyzja = int(input("""\nWybierz metrykę:
                             1.Euklidesa
-                            2.Minakowskiego
+                            2.Minkowskiego
                             3.Czebyszewa"
                             4.z logarytmem\n"""))
         k = int(input("\n\nPodaj parametr k: "))
